@@ -10,14 +10,54 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+librerias
+```{r}
+library(rpart)
+library(rpart.plot)
+library(dplyr) 
+library(fpc) 
+library(cluster) 
+library("ggpubr") 
+library(mclust)
+library(caret)
+library(tree)
+library(randomForest)
+library(plyr)
+library("stats")
+library("datasets")
+library("prediction")
+```
+
+
+
 ### 1. Use los mismos conjuntos de entrenamiento y prueba que usó para los árboles de decisión en la hoja de trabajo anterior. 
 ```{r}
 datos = read.csv("./train.csv")
 test<- read.csv("./test.csv", stringsAsFactors = FALSE)
 ```
 
+Lo Realizado anteriormente:
 
-### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables. 
+inciso 8:
+
+```{r}
+datos$clasificacion <- ifelse(datos$SalePrice > 290000, "Caras", ifelse(datos$SalePrice>170000, "Intemedia", "Economicas"))
+clasificacion <- table(datos$clasificacion)
+```
+
+Inciso 4
+```{r}
+set_entrenamiento <- sample_frac(datos, .7)
+set_prueba <-setdiff(datos, set_entrenamiento)
+
+
+drop <- c("LotFrontage", "Alley", "MasVnrType", "MasVnrArea", "BsmtQual", "BsmtCond", "BsmtExposure", "BsmtFinType1", "BsmtFinType2", "Electrical", "FireplaceQu", "GarageType", "GarageYrBlt", "GarageFinish", "GarageQual", "GarageCond", "PoolQC", "Fence", "MiscFeature")
+set_entrenamiento <- set_entrenamiento[, !(names(set_entrenamiento) %in% drop)]
+set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
+```
+
+
+### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables.
 
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
 
