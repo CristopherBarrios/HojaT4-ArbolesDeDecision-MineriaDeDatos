@@ -1,0 +1,35 @@
+---
+title: "ArbolesDeDecision"
+author: "Cristopher Barrios, Carlos Daniel Estrada"
+date: "2023-03-10"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### 1. Use los mismos conjuntos de entrenamiento y prueba que usó para los árboles de decisión en la hoja de trabajo anterior. 
+
+### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables. 
+
+### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
+
+### 4. Haga, al menos, 3 modelos más cambiando el parámetro de la profundidad del árbol. ¿Cuál es el mejor modelo para predecir el precio de las casas? 
+
+### 5. Compare los resultados con el modelo de regresión lineal de la hoja anterior, ¿cuál lo hizo mejor? 
+
+### 6. Dependiendo del análisis exploratorio elaborado cree una variable respuesta que le permita clasificar las casas en Económicas, Intermedias o Caras. Los límites de estas clases deben tener un fundamento en la distribución de los datos de precios, y estar bien explicados  
+
+### 7. Elabore  un  árbol  de  clasificación  utilizando  la  variable  respuesta que  creó  en  el  punto anterior.  Explique los resultados a los que llega. Muestre el modelo gráficamente. Recuerde que la nueva variable respuesta es categórica, pero se generó a partir de los precios de las casas, no incluya el precio de venta para entrenar el modelo. 
+
+### 8. Utilice el modelo con el conjunto de prueba y determine la eficiencia del algoritmo para clasificar.
+
+### 9. Haga un análisis de la eficiencia del algoritmo usando una matriz de confusión para el árbol de clasificación. Tenga en cuenta la efectividad, donde el algoritmo se equivocó más, donde se equivocó menos y la importancia que tienen los errores. 
+
+### 10. Entrene un modelo usando validación cruzada, prediga con él. ¿le fue mejor que al modelo anterior? 
+
+### 11.  Haga al menos, 3 modelos más cambiando la profundidad del árbol. ¿Cuál funcionó mejor? 
+
+### 12. Repite los análisis usando random forest como algoritmo de predicción, explique sus resultados comparando ambos algoritmos.  
