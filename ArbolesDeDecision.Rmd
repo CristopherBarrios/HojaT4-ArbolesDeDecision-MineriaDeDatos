@@ -11,6 +11,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ### 1. Use los mismos conjuntos de entrenamiento y prueba que usó para los árboles de decisión en la hoja de trabajo anterior. 
+```{r}
+datos = read.csv("./train.csv")
+test<- read.csv("./test.csv", stringsAsFactors = FALSE)
+```
+
 
 ### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables. 
 
