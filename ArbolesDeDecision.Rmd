@@ -26,6 +26,7 @@ library(plyr)
 library("stats")
 library("datasets")
 library("prediction")
+library(tidyverse)
 ```
 
 
@@ -56,8 +57,21 @@ set_entrenamiento <- set_entrenamiento[, !(names(set_entrenamiento) %in% drop)]
 set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
 ```
 
-
 ### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables.
+
+--modelo del arbol de decision
+```{r}
+arbolModelo1 < rpart(SalePrice~.,data = set_entrenamiento)
+```
+
+--graficar arbol
+```{r}
+rpart.plot(arbolModelo1, type = 2,extra = 104)
+```
+
+
+
+
 
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
 
