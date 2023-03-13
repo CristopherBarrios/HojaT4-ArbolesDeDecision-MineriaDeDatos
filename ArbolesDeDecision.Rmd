@@ -61,7 +61,7 @@ set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
 
 --modelo del arbol de decision
 ```{r}
-arbolModelo1 < rpart(SalePrice~.,data = set_entrenamiento)
+arbolModelo1 <- rpart(SalePrice~.,set_entrenamiento,method = "class")
 ```
 
 --graficar arbol
