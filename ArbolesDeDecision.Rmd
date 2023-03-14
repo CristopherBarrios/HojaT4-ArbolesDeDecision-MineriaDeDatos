@@ -59,10 +59,31 @@ set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
 
 ### 2. Elabore un árbol de regresión para predecir el precio de las casas usando todas las variables.
 
+
+```{r}
+
+arbol_2 <- rpart(clasificacion ~ ., data = set_entrenamiento)
+
+```
+
+```{r}
+prp(arbol_2, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.col = "green", branch.lty = 3, branch = .5, faclen = 0, trace = 1, split.cex = 0.8, split.box.col = "lightblue", split.border.col = "blue", split.round = 0.5)
+```
+
+
+```{r}
+arbol_3 <- rpart(SalePrice ~ ., data = set_entrenamiento)
+```
+
+```{r}
+prp(arbol_3, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.col = "green", branch.lty = 3, branch = .5, faclen = 0, trace = 1, split.cex = 0.8, split.box.col = "lightblue", split.border.col = "blue", split.round = 0.5)
+```
+
+
 --modelo del arbol de decision
 ```{r}
-arbolModelo1 <- rpart(SalePrice~.,set_prueba,method = "class")
-rpart.plot(arbolModelo1)
+#arbolModelo1 <- rpart(SalePrice~.,set_prueba,method = "class")
+#rpart.plot(arbolModelo1)
 ```
 
 --graficar arbol
