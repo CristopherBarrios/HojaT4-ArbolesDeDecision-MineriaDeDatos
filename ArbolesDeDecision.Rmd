@@ -84,7 +84,7 @@ prp(arbol_3, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.co
 ```{r}
 predicciones <- predict(arbol_3, data = set_prueba)
 
-mse <- mean((predicciones - set_prueba$SalePrice)^2)
+mse <- mean((predicciones - set_prueba$SalePrice)**2)
 mse
 
 ```
@@ -92,6 +92,49 @@ mse
 el valor del MSE obtenido es de 11576704151, lo que indica que el modelo tiene un error cuadrático medio alto en la predicción del precio de las casas en el conjunto de prueba. Por lo tanto, el modelo no es muy preciso en la predicción del precio de las casas y puede requerir más ajustes y mejoras.
 
 ### 4. Haga, al menos, 3 modelos más cambiando el parámetro de la profundidad del árbol. ¿Cuál es el mejor modelo para predecir el precio de las casas? 
+```{r}
+arbol_4 <- rpart(SalePrice ~ ., data = set_entrenamiento, control = rpart.control(maxdepth = 5))
+predicciones2 <- predict(arbol_4, data = set_prueba)
+
+mse2 <- mean((predicciones2 - set_prueba$SalePrice)**2)
+mse2
+
+```
+
+```{r}
+arbol_5 <- rpart(SalePrice ~ ., data = set_entrenamiento, control = rpart.control(maxdepth = 10))
+predicciones3 <- predict(arbol_5, data = set_prueba)
+
+mse3 <- mean((predicciones3 - set_prueba$SalePrice)**2)
+mse3
+
+```
+
+```{r}
+arbol_6 <- rpart(SalePrice ~ ., data = set_entrenamiento, control = rpart.control(maxdepth = 15))
+predicciones4 <- predict(arbol_6, data = set_prueba)
+
+mse4 <- mean((predicciones4 - set_prueba$SalePrice)**2)
+mse4
+
+
+```
+
+```{r}
+arbol_6 <- rpart(SalePrice ~ ., data = set_entrenamiento, control = rpart.control(maxdepth = 3))
+predicciones4 <- predict(arbol_6, data = set_prueba)
+
+mse4 <- mean((predicciones4 - set_prueba$SalePrice)**2)
+mse4
+
+
+```
+
+En general, se puede observar que el error cuadrático medio (MSE) no varía significativamente al cambiar la profundidad máxima del árbol de decisión.
+
+El primer modelo que se ajusta con una profundidad máxima de 5, el segundo modelo con una profundidad máxima de 10, el tercer modelo con una profundidad máxima de 15, y el cuarto modelo con una profundidad máxima de 3.
+
+Se puede observar que el modelo con una profundidad máxima de 3, produce un MSE ligeramente menor que los otros modelos, por lo tanto se podria decir que este es el mejor. Sin embargo, este resultado debe tomarse con precaución, ya que un modelo demasiado simple puede llevar a una subestimación de la complejidad de los datos y, por lo tanto, a una menor precisión en las predicciones.
 
 
 
