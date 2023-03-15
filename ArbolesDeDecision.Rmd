@@ -65,15 +65,6 @@ arbolModelo1 <- rpart(SalePrice~.,set_prueba,method = "class")
 rpart.plot(arbolModelo1)
 ```
 
---graficar arbol
-```{r}
-
-```
-
-
-
-
-
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
 
 ### 4. Haga, al menos, 3 modelos más cambiando el parámetro de la profundidad del árbol. ¿Cuál es el mejor modelo para predecir el precio de las casas? 
