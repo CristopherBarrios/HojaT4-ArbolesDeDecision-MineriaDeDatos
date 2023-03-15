@@ -180,16 +180,60 @@ eficiencia
 
 ### 9. Haga un análisis de la eficiencia del algoritmo usando una matriz de confusión para el árbol de clasificación. Tenga en cuenta la efectividad, donde el algoritmo se equivocó más, donde se equivocó menos y la importancia que tienen los errores. 
 
+```{r include=FALSE}
+estado <- c('Estado')
+datos$Estado <- estado
+
+
+datos <- within(datos, Estado[SalePrice <= 129975] <- 'Economica')
+datos$Estado[(datos$SalePrice > 129975 & datos$SalePrice <= 163000)] <- "Intermedio"
+datos$Estado[datos$SalePrice > 163000] <- "Cara"
+
+
+porciento <- 70/100
+# Variables numericas
+datos <- datos[, c("LotFrontage", "LotArea", "GrLivArea", "YearBuilt", "BsmtUnfSF", "TotalBsmtSF", "X1stFlrSF", "GarageYrBlt", "GarageArea", "YearRemodAdd", "SalePrice", "Estado")]
+
+# Variables  Grupo
+datosFiltertree <- datos[, c("LotFrontage", "LotArea", "GrLivArea", "YearBuilt", "BsmtUnfSF", "TotalBsmtSF", "X1stFlrSF", "GarageYrBlt", "GarageArea", "YearRemodAdd", "Estado")]
+
+set.seed(123)
+trainRowsNumber <- sample(1:nrow(datosFiltertree), porciento * nrow(datosFiltertree))
+train <- datosFiltertree[trainRowsNumber, ]
+test <- datosFiltertree[-trainRowsNumber, ]
+train <- na.omit(train)
+train$Estado <- factor(train$Estado)
+modeloRF1 <- randomForest(train$Estado ~ ., train)
+prediccionRF1 <- predict(modeloRF1, newdata = test)
+testCompleto <- test
+
+testCompleto$predRF <- prediccionRF1
+testCompleto$predRF <- (testCompleto$predRF)
+cfmRandomForest <- table(testCompleto$predRF, testCompleto$Estado)
+cfmRandomForest <- confusionMatrix(table(testCompleto$predRF, testCompleto$Estado))
+
+```
+
+```{r include=TRUE}
+cfm <- confusionMatrix(table(testCompleto$predRF, testCompleto$Estado))
+cfm
+```
+
+La diagonal principal de la matriz indica la cantidad de instancias correctamente clasificadas para cada clase, mientras que los elementos fuera de la diagonal indican los errores de clasificación. Por ejemplo, en la clase "Cara", de las 173 instancias en el conjunto de prueba, 160 fueron clasificadas correctamente y 13 fueron clasificadas incorrectamente, 1 de ellas como "Economica" y 12 como "Intermedio".
+
+En términos de métricas de evaluación, la precisión global del modelo es de 0.82, lo que indica que el modelo clasificó correctamente el 82% de las instancias en el conjunto de prueba. La sensibilidad, que mide la capacidad del modelo para detectar instancias de cada clase, varía para cada clase y es mayor para la clase "Cara" con un valor de 0.8889 y menor para la clase "Intermedio" con un valor de 0.6471. La especificidad, que mide la capacidad del modelo para clasificar correctamente instancias negativas, es alta para todas las clases, lo que indica que el modelo es bueno en la identificación de instancias que no pertenecen a cada clase.
+
+La importancia de los errores también puede evaluarse a través de las métricas de valor predictivo positivo (PPV) y valor predictivo negativo (NPV). Estas métricas miden la proporción de instancias correctamente clasificadas entre las instancias clasificadas en una clase específica. En este caso, el PPV es más alto para la clase "Cara" con un valor de 0.9249, lo que indica que el modelo clasificó correctamente la mayoría de las instancias predichas como "Cara". Por otro lado, el PPV es más bajo para la clase "Economica" con un valor de 0.7660, lo que indica que el modelo cometió más errores al clasificar instancias como "Economica".
+
 ### 10. Entrene un modelo usando validación cruzada, prediga con él. ¿le fue mejor que al modelo anterior? 
 
 ### 11.  Haga al menos, 3 modelos más cambiando la profundidad del árbol. ¿Cuál funcionó mejor? 
 
 ### 12. Repite los análisis usando random forest como algoritmo de predicción, explique sus resultados comparando ambos algoritmos.  
-```{r}
-#set.seed(123)
-#modelo <- randomForest(SalePrice ~ ., data = set_entrenamiento)
-#prediccion_2 <- predict(modelo, set_prueba)
-#mc <- table(prediccion_2, set_prueba$SalePrice)
 
+```{r}
+cfmRandomForest <- table(testCompleto$predRF, testCompleto$Estado)
+plot(cfmRandomForest);text(cfmRandomForest)
 ```
 
+La matriz de confusión del modelo de Random Forest muestra una mayor precisión en la predicción de las clases en comparación con el árbol de decisión. La precisión global del modelo Random Forest es del 90.3%, mientras que la precisión global del árbol de decisión es del 82%. Además, el modelo Random Forest tiene una mayor sensibilidad y especificidad en la predicción de cada clase, lo que indica que es mejor para detectar tanto verdaderos positivos como verdaderos negativos. En general, se puede concluir que el modelo Random Forest es más preciso en la predicción de la variable objetivo en comparación con el árbol de decisión.
