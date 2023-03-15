@@ -81,6 +81,15 @@ prp(arbol_3, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.co
 
 
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
+```{r}
+predicciones <- predict(arbol_3, data = set_prueba)
+
+mse <- mean((predicciones - set_prueba$SalePrice)^2)
+mse
+
+```
+
+el valor del MSE obtenido es de 11576704151, lo que indica que el modelo tiene un error cuadrático medio alto en la predicción del precio de las casas en el conjunto de prueba. Por lo tanto, el modelo no es muy preciso en la predicción del precio de las casas y puede requerir más ajustes y mejoras.
 
 ### 4. Haga, al menos, 3 modelos más cambiando el parámetro de la profundidad del árbol. ¿Cuál es el mejor modelo para predecir el precio de las casas? 
 
