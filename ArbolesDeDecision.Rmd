@@ -271,26 +271,60 @@ folds <- createFolds(set_entrenamiento$SalePrice, k = 10)
 
 
 data("PimaIndiansDiabetes")
-
-
 entrenamiento_index <- createDataPartition(PimaIndiansDiabetes$diabetes, p = 0.7, list = FALSE) #70 entrenamiento, 30 prueba
 entrenamiento <- PimaIndiansDiabetes[entrenamiento_index, ]
 pruebas <- PimaIndiansDiabetes[-entrenamiento_index, ]
 
 f <- diabetes ~ .
 
+#entrenar modelo
 m1 <- train(f, data = entrenamiento, method = "glm", trControl = trainControl(method = "cv", number = 10))
-
+#predicciones
 pred <- predict(m1, newdata = pruebas)
-
+#rendimiento
 rendimiento <- mean(pred == pruebas$diabetes)
+rendimiento
 
-
+#entrenar 2do modelo
+m2 <- train(f, data = entrenamiento, method = "rf", trControl = trainControl(method = "cv", number = 10))
+#predicciones
+pred2 <- predict(m2, newdata = pruebas)
+#rendimiento
+rendimiento2 <- mean(pred2 == pruebas$diabetes)
+rendimiento2
 
 ```
 
 Se puede observar que el modelo posee un buen rendimiento 
+
 ### 11.  Haga al menos, 3 modelos más cambiando la profundidad del árbol. ¿Cuál funcionó mejor? 
+```{r}
+data(iris)
+
+fs <- createFolds(iris$Species, k = 10)
+
+# Vector para guardar los resultados de la validación cruzada
+resultados <- c()
+
+# Definir el modelo
+
+  for (i in 1:3) {
+  modelo <- rpart(Species ~ ., data = iris, control = rpart.control(maxdepth = i))
+    
+  # Realizar la validación cruzada
+  ValCruzada <- train(Species ~ ., data = iris, method = "rpart", trControl = trainControl(method = "cv", index = fs), tuneGrid = data.frame(cp = 0.01))
+    
+  # Guardar los resultados
+  resultados[i] <- ValCruzada$results$Accuracy
+    
+
+  }
+  # Mostrar los resultados del accuracy de los tres modelos
+  resultados
+
+```
+
+En cuanto a cuál de los modelos funciona mejor, en este caso, los resultados son iguales para todos, por lo que ninguno funciona mejor que otro.
 
 ### 12. Repite los análisis usando random forest como algoritmo de predicción, explique sus resultados comparando ambos algoritmos.  
 
