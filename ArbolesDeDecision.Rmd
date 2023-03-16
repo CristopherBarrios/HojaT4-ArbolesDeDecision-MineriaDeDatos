@@ -176,7 +176,7 @@ arbol_4
 ```{r}
 rpart.plot(arbol_4)
 ```
-
+El siguiente diagrama nos indica que las casas económicas conforman el 54% de los datos de entrenamiento, mientras que las intermedias son el 38% y las caras unicamente el 8%. 
 
 ### 8. Utilice el modelo con el conjunto de prueba y determine la eficiencia del algoritmo para clasificar.
 
