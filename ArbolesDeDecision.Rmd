@@ -255,16 +255,16 @@ library(caret)
 folds <- createFolds(set_entrenamiento$SalePrice, k = 10)
 
 
-cvRegresionLogistica <- lapply(folds, function(x){
+library(rpart)
+cvDecisionTree <- lapply(folds, function(x){
   training_fold <- training_set[-x, ]
   test_fold <- training_set[x, ]
-  clasificador <- glm(SalePrice ~ ., family = binomial, data = training_fold)
-  y_pred <- predict(clasificador, type = 'response', newdata = test_fold)
-  cm <- table(test_fold$TipoEstrella, y_pred)
-  precision <- (cm[1,1] + cm[2,2]) / (cm[1,1] + cm[2,2] +cm[1,2] + cm[2,1])
-  return(precision)
+  clasificador <- rpart(SalePrice ~ ., data = training_fold)
+  y_pred <- predict(clasificador, newdata = test_fold, type = 'class')
+  cm <- table(test_fold$SalePrice, y_pred)
+  #precision <- (cm[1,1] + cm[2,2]) / (cm[1,1] + cm[2,2] +cm[1,2] + cm[2,1])
+  #return(precision)
 })
-precisionRegresionLogistica <- mean(as.numeric(cvRegresionLogistica))
 ```
 
 
