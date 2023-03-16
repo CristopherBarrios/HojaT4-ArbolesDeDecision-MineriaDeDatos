@@ -255,7 +255,6 @@ library(caret)
 folds <- createFolds(set_entrenamiento$SalePrice, k = 10)
 
 
-library(rpart)
 cvDecisionTree <- lapply(folds, function(x){
   training_fold <- training_set[-x, ]
   test_fold <- training_set[x, ]
