@@ -72,6 +72,7 @@ prp(arbol_3, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.co
 ```
 
 Como se puede observar, el arbol utilza las variables que consideramos esenciales para predecir el valor de una casa
+
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
 ```{r}
 predicciones <- predict(arbol_3, data = set_prueba)
@@ -167,6 +168,7 @@ set_entrenamiento <- set_entrenamiento[, !(names(set_entrenamiento) %in% drop)]
 set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
 ```
 Consideramos una casa que valga menos de 170,000 dólares es económica, si vale entre 171,000 y 289,000 dólares es de un valor intermedio, y si vale más de 290,000 es una casa cara, esto lo decidiemos teniendo en cuenta los estándares económicos en Estados Unidos. Se puede observar que en nuestros datos con dichos parámetros hay más casas consideradas económicas (792) que intermedias(547) y hay una gran diferencia entre estas y la cantidad de casas caras(121).
+
 ### 7. Elabore  un  árbol  de  clasificación  utilizando  la  variable  respuesta que  creó  en  el  punto anterior.  Explique los resultados a los que llega. Muestre el modelo gráficamente. Recuerde que la nueva variable respuesta es categórica, pero se generó a partir de los precios de las casas, no incluya el precio de venta para entrenar el modelo. 
 ```{r}
 arbol_4 <- rpart(formula = clasificacion ~ ., data = set_entrenamiento)
