@@ -71,6 +71,7 @@ prp(arbol_3, main="Arbol de Regresion", nn=TRUE, fallen.leaves = TRUE, shadow.co
 #rpart.plot(arbolModelo1)
 ```
 
+Como se puede observar, el arbol utilza las variables que consideramos esenciales para predecir el valor de una casa
 ### 3. Úselo para predecir y analice el resultado. ¿Qué tal lo hizo? 
 ```{r}
 predicciones <- predict(arbol_3, data = set_prueba)
@@ -131,6 +132,25 @@ Se puede observar que el modelo con una profundidad máxima de 3, produce un MSE
 
 ### 5. Compare los resultados con el modelo de regresión lineal de la hoja anterior, ¿cuál lo hizo mejor? 
 
+
+```{r}
+porciento <- 70/100
+datos$clasificacion <- ifelse(datos$SalePrice <= 251000, "Economicas", ifelse(datos$SalePrice <= 538000, "Intermedias", ifelse(datos$SalePrice <= 755000, "Caras")))
+
+datos$y <- as.numeric(factor(datos$clasificacion))
+datosCC <- datos[,c(2,4,18,19,20,21,27,35,37,38,39,44,45,46,47,48,49,50,51,52,53,55,57,60,62,63,67,68,69,70,71,72,76,77,78,81,83)]
+datosCC <- datosCC[,colSums(is.na(datosCC))==0]
+set.seed(123)
+trainRowsNumber<-sample(nrow(datosCC),porciento*nrow(datosCC))
+train<-datosCC[trainRowsNumber,]
+test<-datosCC[-trainRowsNumber,]
+
+fitLM<-lm(SalePrice~., data = train) 
+summary(fitLM)
+
+```
+Los arboles de decisión se aproximan más al valor real de los inmuebles que el modelo de regresión lineal 
+
 ### 6. Dependiendo del análisis exploratorio elaborado cree una variable respuesta que le permita clasificar las casas en Económicas, Intermedias o Caras. Los límites de estas clases deben tener un fundamento en la distribución de los datos de precios, y estar bien explicados  
 ```{r}
 datos$clasificacion <- ifelse(datos$SalePrice > 290000, "Caras", ifelse(datos$SalePrice>170000, "Intemedia", "Economicas"))
@@ -146,6 +166,7 @@ drop <- c("LotFrontage", "Alley", "MasVnrType", "MasVnrArea", "BsmtQual", "BsmtC
 set_entrenamiento <- set_entrenamiento[, !(names(set_entrenamiento) %in% drop)]
 set_prueba <- set_prueba[, !(names(set_prueba) %in% drop)]
 ```
+Consideramos una casa que valga menos de 170,000 dólares es económica, si vale entre 171,000 y 289,000 dólares es de un valor intermedio, y si vale más de 290,000 es una casa cara, esto lo decidiemos teniendo en cuenta los estándares económicos en Estados Unidos. Se puede observar que en nuestros datos con dichos parámetros hay más casas consideradas económicas (792) que intermedias(547) y hay una gran diferencia entre estas y la cantidad de casas caras(121).
 ### 7. Elabore  un  árbol  de  clasificación  utilizando  la  variable  respuesta que  creó  en  el  punto anterior.  Explique los resultados a los que llega. Muestre el modelo gráficamente. Recuerde que la nueva variable respuesta es categórica, pero se generó a partir de los precios de las casas, no incluya el precio de venta para entrenar el modelo. 
 ```{r}
 arbol_4 <- rpart(formula = clasificacion ~ ., data = set_entrenamiento)
